@@ -1,0 +1,48 @@
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f2f2f2;
+}
+
+h1{
+    text-align:center;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 0;
+}
+
+button{
+    padding:10px 15px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+}
+
+.day{
+    background:white;
+    border-radius:8px;
+    min-height:80px;
+    padding:8px;
+    text-align:center;
+    box-shadow:0 2px 5px rgba(0,0,0,.15);
+}
+
+.off{
+    background:#ff5252;
+    color:white;
+    font-weight:bold;
+}
+
+.today{
+    border:3px solid #1976d2;
+}
