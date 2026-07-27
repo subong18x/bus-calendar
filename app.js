@@ -15,93 +15,70 @@ const restPattern = [
 
 function getRestDays(year, month){
 
-    const baseYear = 2026;
-    const baseQuarter = 2; // 2026년 7~9월
+    // 2026년 7월을 기준으로 몇 번째 분기인지 계산
+    const months = (year - 2026) * 12 + (month - 7);
+    const quarterIndex = Math.floor(months / 3);
 
-    let currentQuarter;
-
-    if(month>=7 && month<=9){
-        currentQuarter=2;
-    }else if(month>=10){
-        currentQuarter=3;
-    }else if(month>=1 && month<=3){
-        currentQuarter=0;
-    }else{
-        currentQuarter=1;
-    }
-
-    let quarterDiff=(year-baseYear)*4+(currentQuarter-baseQuarter);
-
-    let index=((quarterDiff%7)+7)%7;
+    // 7개 패턴 반복
+    const index = ((quarterIndex % 7) + 7) % 7;
 
     return restPattern[index];
 }
 
 function draw(){
 
-calendar.innerHTML="";
+    calendar.innerHTML="";
 
-let year=current.getFullYear();
-let month=current.getMonth();
+    let year=current.getFullYear();
+    let month=current.getMonth();
 
-monthYear.textContent=`${year}년 ${month+1}월`;
+    monthYear.textContent=`${year}년 ${month+1}월`;
 
-const first=new Date(year,month,1);
-const last=new Date(year,month+1,0);
+    const first=new Date(year,month,1);
+    const last=new Date(year,month+1,0);
 
-const off=getRestDays(year,month+1);
+    const off=getRestDays(year,month+1);
 
-for(let i=0;i<first.getDay();i++){
+    for(let i=0;i<first.getDay();i++){
+        calendar.appendChild(document.createElement("div"));
+    }
 
-let div=document.createElement("div");
-calendar.appendChild(div);
+    for(let d=1; d<=last.getDate(); d++){
 
-}
+        let div=document.createElement("div");
+        div.className="day";
 
-for(let d=1;d<=last.getDate();d++){
+        let date=new Date(year,month,d);
 
-let div=document.createElement("div");
+        if(off.includes(date.getDay())){
+            div.classList.add("off");
+        }
 
-div.className="day";
+        const today=new Date();
 
-let date=new Date(year,month,d);
+        if(
+            today.getFullYear()==year &&
+            today.getMonth()==month &&
+            today.getDate()==d
+        ){
+            div.classList.add("today");
+        }
 
-if(off.includes(date.getDay()))
-div.classList.add("off");
+        div.innerHTML=d;
 
-const today=new Date();
-
-if(
-today.getFullYear()==year &&
-today.getMonth()==month &&
-today.getDate()==d
-){
-div.classList.add("today");
-}
-
-div.innerHTML=d;
-
-calendar.appendChild(div);
-
-}
+        calendar.appendChild(div);
+    }
 
 }
 
 draw();
 
 document.getElementById("prev").onclick=()=>{
-
-current.setMonth(current.getMonth()-1);
-
-draw();
-
+    current.setMonth(current.getMonth()-1);
+    draw();
 }
 
 document.getElementById("next").onclick=()=>{
-
-current.setMonth(current.getMonth()+1);
-
-draw();
-
-}
+    current.setMonth(current.getMonth()+1);
+    draw();
 }
