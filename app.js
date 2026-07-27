@@ -4,31 +4,37 @@ const monthYear = document.getElementById("monthYear");
 let current = new Date();
 
 const restPattern = [
-  [2,3], // 화수
-  [1,2], // 월화
-  [0,1], // 일월
-  [6,0], // 토일
-  [5,6], // 금토
-  [4,5], // 목금
-  [3,4]  // 수목
+  [2,3], // 화·수
+  [1,2], // 월·화
+  [0,1], // 일·월
+  [6,0], // 토·일
+  [5,6], // 금·토
+  [4,5], // 목·금
+  [3,4]  // 수·목
 ];
 
 function getRestDays(year, month){
 
-    let baseYear=2026;
-    let quarter;
+    const baseYear = 2026;
+    const baseQuarter = 2; // 2026년 7~9월
 
-    if(month>=7 && month<=9) quarter=0;
-    else if(month>=10) quarter=1;
-    else if(month<=3) quarter=2;
-    else quarter=3;
+    let currentQuarter;
 
-    let index=((year-baseYear)*4+quarter)%7;
+    if(month>=7 && month<=9){
+        currentQuarter=2;
+    }else if(month>=10){
+        currentQuarter=3;
+    }else if(month>=1 && month<=3){
+        currentQuarter=0;
+    }else{
+        currentQuarter=1;
+    }
 
-    if(index<0) index+=7;
+    let quarterDiff=(year-baseYear)*4+(currentQuarter-baseQuarter);
+
+    let index=((quarterDiff%7)+7)%7;
 
     return restPattern[index];
-
 }
 
 function draw(){
@@ -97,4 +103,5 @@ current.setMonth(current.getMonth()+1);
 
 draw();
 
+}
 }
