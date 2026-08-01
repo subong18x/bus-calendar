@@ -61,3 +61,18 @@ button{
     padding:10px;
     border-radius:8px;
 }
+
+.date{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.shift{
+    margin-top:6px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.off .shift{
+    color:white;
+}
